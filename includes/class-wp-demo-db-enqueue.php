@@ -8,11 +8,15 @@ class WPDemoDB_Enqueue
      {
           add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_script']);
      }
+
      public static function enqueue_script($hook)
      {
           if ($hook !== 'toplevel_page_wp-demo-db') {
                return;
           }
+
+          // Enqueue WordPress media uploader
+          wp_enqueue_media();
 
           wp_enqueue_script(
                'react-admin-js',
@@ -35,6 +39,7 @@ class WPDemoDB_Enqueue
                     'page_title' => 'Book Management System',
                     'apiUrl' => rest_url('books'),
                     'nonce' => wp_create_nonce('wp_rest'),
+                    'ajaxUrl' => admin_url('admin-ajax.php'),
                ]),
                'before'
           );

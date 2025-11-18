@@ -23,6 +23,7 @@ class WPDemoDb_Database
 
           $sql = "CREATE TABLE $table (
                     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                    cover_image VARCHAR(255),
                     title VARCHAR(255) NOT NULL,
                     author VARCHAR(255) NOT NULL,
                     genre VARCHAR(100),
@@ -58,12 +59,13 @@ class WPDemoDb_Database
           $inserted = $wpdb->insert(
                $table,
                [
+                    'cover_image' => sanitize_text_field($data['cover_image'] ?? ''),
                     'title' => sanitize_text_field($data['title']),
                     'author' => sanitize_text_field($data['author']),
                     'genre' => sanitize_text_field($data['genre'] ?? ''),
                     'copies' => intval($data['copies'] ?? 0)
                ],
-               ['%s', '%s', '%s', '%d']
+               ['%s', '%s', '%s', '%s', '%d']
           );
 
           if ($inserted) {
@@ -89,13 +91,14 @@ class WPDemoDb_Database
           $updated = $wpdb->update(
                $table,
                [
+                    'cover_image' => sanitize_text_field($data['cover_image'] ?? ''),
                     'title' => sanitize_text_field($data['title']),
                     'author' => sanitize_text_field($data['author']),
                     'genre' => sanitize_text_field($data['genre'] ?? ''),
                     'copies' => intval($data['copies'] ?? 0)
                ],
                ['id' => $id],
-               ['%s', '%s', '%s', '%d'],
+               ['%s', '%s', '%s', '%s', '%d'],
                ['%d']
           );
 
